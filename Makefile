@@ -1,6 +1,6 @@
 NAME = philo_one
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = #-Wall -Wextra #-Werror
 
 SRCS = main.c libft_utils.c 
 
@@ -11,7 +11,7 @@ all: $(NAME)
 INCLUDES = philo_one.h
 
 $(NAME): $(OBJS) 
-	@gcc  ${CFLAGS} $(OBJS) -o $(NAME)
+	@gcc  ${CFLAGS} $(OBJS) -pthread -o $(NAME)
 	@echo "༼ つ ◕_◕  philo_one is compiled! ༼ つ ◕_◕ "
 
 clean:
