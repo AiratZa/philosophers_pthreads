@@ -7,6 +7,19 @@ void	ft_put_error(char *str)
 	ft_putendl_fd(CLR_RESET, 2);
 }
 
+/*
+TODO
+https://cdn.intra.42.fr/pdf/pdf/13315/en.subject.pdf
+
+*  The simulation stops when a philosopher dies
+
+*  number_of_times_each_philosopher_must_eat: argument is optional, if all
+philosophers eat at least ’number_of_times_each_philosopher_must_eat’ the
+simulation will stop. If not specified, the simulation will stop only at the death
+of a philosopher
+
+*/
+
 int	main(int argc, char **argv)
 {
 	t_vars vars;
