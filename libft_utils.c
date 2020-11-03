@@ -94,35 +94,6 @@ static char		*min_int_handler(int n)
 	return (nbr);
 }
 
-char			*ft_itoa(int n)
-{
-	char	*nbr;
-	size_t	d_count;
-	size_t	minus;
-
-	minus = 0;
-	if (n == (-2147483648))
-		return (min_int_handler(n));
-	d_count = ft_d_count(n);
-	if (n < 0)
-		minus = 1;
-	nbr = (char *)malloc((d_count + minus + 1) * sizeof(char));
-	if (nbr == NULL)
-		return (NULL);
-	nbr[d_count + minus] = '\0';
-	if (n < 0)
-	{
-		n *= -1;
-		nbr[0] = '-';
-	}
-	while (d_count > 0)
-	{
-		nbr[(d_count--) + minus - 1] = (n % 10) + '0';
-		n /= 10;
-	}
-	return (nbr);
-}
-
 void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, sizeof(char));
