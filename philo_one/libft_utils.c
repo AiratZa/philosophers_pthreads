@@ -56,52 +56,14 @@ int			ft_atoi(const char *nptr)
 	return ((minus) ? (int)(-nb) : (int)(nb));
 }
 
-static size_t	ft_d_count(int n)
-{
-	size_t		d_count;
-
-	d_count = 1;
-	if (n < 0)
-		n *= -1;
-	while (n >= 10)
-	{
-		d_count++;
-		n /= 10;
-	}
-	return (d_count);
-}
-
-static char		*min_int_handler(int n)
-{
-	size_t	i;
-	char	*nbr;
-
-	i = 10;
-	nbr = (char *)malloc(12 * sizeof(char));
-	if (nbr == NULL)
-		return (NULL);
-	nbr[11] = '\0';
-	n++;
-	n *= -1;
-	nbr[0] = '-';
-	while (i > 0)
-	{
-		nbr[i] = (n % 10) + '0';
-		n /= 10;
-		i--;
-	}
-	nbr[10] = '8';
-	return (nbr);
-}
-
 void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, sizeof(char));
 }
 
-void		ft_putnbr_fd(int n, int fd)
+void		ft_putnbr_fd(long long int n, int fd)
 {
-	char	nbr[10];
+	char	nbr[19];
 	int		i;
 
 	i = 0;
@@ -110,11 +72,6 @@ void		ft_putnbr_fd(int n, int fd)
 	if (n < 0)
 	{
 		ft_putchar_fd('-', fd);
-		if (n == -2147483648)
-		{
-			ft_putchar_fd('2', fd);
-			n = (n % 1000000000);
-		}
 		n *= -1;
 	}
 	while (n != 0)

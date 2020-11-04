@@ -38,12 +38,16 @@ typedef struct s_philo
 	int			*rght_fork;
 	int			first;
 	int			last;
-	int			status;
-	int			lst_meal;
+	int			eating_status;
+	long long int			lst_meal;
+	long long int			max_hunger;
 	int			lft_id;
 	int			rght_id;
+	int		eatiing_count;
+	pthread_mutex_t	eat_mtx;
+	pthread_mutex_t	philo_mtx;
 	pthread_t	thread;
-
+	pthread_t	hungry_monitor;
 }				t_philo;
 
 typedef struct s_mtxs
@@ -60,12 +64,15 @@ typedef struct s_vars
 	struct s_thrd_info   *infos;
 	t_philo              *philos;
 	t_mtxs               mtxs;
+	pthread_t			starve_monitor;
+	pthread_t			eating_count_monitoring;
 	int	              nbr_of_philos;
 	int	              time_to_die;
 	int	              time_to_eat;
 	int	              time_to_sleep;
 	int	              with_external_param;
 	int	              philos_must_eat_times_nbr;
+	// int					block_logs;
 }				t_vars;
 
 typedef struct       s_thrd_info
@@ -91,7 +98,7 @@ void		*life_cycle(void *info_void);
 ** Philo utils
 */
 
-int			ft_get_timestamp_ms(void);
+long long int	ft_get_timestamp_ms(void);
 
 void		sleep_milisecs(int count);
 
@@ -111,6 +118,18 @@ void		ft_putstr_fd(char *s, int fd);
 
 void		ft_putendl_fd(char *s, int fd);
 
-void		ft_putnbr_fd(int n, int fd);
+void		ft_putnbr_fd(long long int n, int fd);
+
+
+int init_monitoring(t_vars *vars);
+
+int	parse_n_check_args(t_vars *vars, char **argv);
+
+void	ft_put_error(char *str);
+
+void	free_vars(t_vars *vars);
+
+int	activate_monitoring(t_vars *vars, int id, void *info_void);
+
 
 #endif

@@ -31,23 +31,31 @@ static char    *get_action(int type)
         return (SLEEP_LOG);
     else if (type == 4)
         return (THINK_LOG);
-    return (RED);
+    return (DIE_LOG);
 }
 
 void    write_log(t_vars *vars, int type, int id)
 {
     char *color;
     char *action;
-    
+    long long int timestamp;
+
+    timestamp = ft_get_timestamp_ms();
+
+    // if (!vars->block_logs)
+    // {
+    // sleep_milisecs(1);
     color = get_color(type);
     action = get_action(type);
     pthread_mutex_lock(&((vars->mtxs).write_log_mtx));
     ft_putstr_fd(color, 1);
-	ft_putnbr_fd(ft_get_timestamp_ms(), 1);
-	ft_putchar_fd(' ', 1);
-	ft_putnbr_fd(id, 1);
-	ft_putchar_fd(' ', 1);
-	ft_putendl_fd(action, 1);
+    ft_putnbr_fd(timestamp, 1);
+    ft_putchar_fd(' ', 1);
+    ft_putnbr_fd(id, 1);
+    ft_putchar_fd(' ', 1);
+    ft_putendl_fd(action, 1);
     ft_putstr_fd(CLR_RESET, 1);
-    pthread_mutex_unlock(&((vars->mtxs).write_log_mtx));
+    if (type >= 0)
+        pthread_mutex_unlock(&((vars->mtxs).write_log_mtx));
+    // }
 }

@@ -37,3 +37,22 @@ int	convert_to_int_n_check_min_value(char **argv, int arg_nbr, t_vars *vars)
 	set_config_value_by_id(arg_nbr, value, vars);
 	return (0);
 }
+
+int	parse_n_check_args(t_vars *vars, char **argv)
+{
+	vars->philos_must_eat_times_nbr = 0;
+	if (convert_to_int_n_check_min_value(argv, 1, vars))
+		return (-1);
+	if (convert_to_int_n_check_min_value(argv, 2, vars))
+		return (-1);
+	if (convert_to_int_n_check_min_value(argv, 3, vars))
+		return (-1);
+	if (convert_to_int_n_check_min_value(argv, 4, vars))
+		return (-1);
+	if (argv[5])
+	{
+		if (convert_to_int_n_check_min_value(argv, 5, vars))
+			return (-1);
+	}
+	return (0);
+}

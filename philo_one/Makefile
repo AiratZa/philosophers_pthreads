@@ -2,7 +2,7 @@ NAME = philo_one
 
 CFLAGS = #-Wall -Wextra #-Werror
 
-SRCS = main.c libft_utils.c init_args.c time_funcs.c parse_n_check_args.c life_cycle.c write_logs.c
+SRCS = main.c libft_utils.c init_args.c philo_utils.c parse_n_check_args.c life_cycle.c write_logs.c monitoring.c
 
 OBJS = $(SRCS:.c=.o)
 
