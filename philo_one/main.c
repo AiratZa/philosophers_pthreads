@@ -7,13 +7,11 @@ int	main(int argc, char **argv)
 
 	if ((argc == 5) || (argc == 6))
 	{
-		if (init_args(&vars, argv))
+		if (init_args_n_do_cycles(&vars, argv))
 		{
-			free_vars(&vars);
+			// free_vars(&vars);
 			return (-1);
 		}
-		pthread_mutex_lock(&((vars.mtxs).philo_dead_mtx));
-		pthread_mutex_unlock(&((vars.mtxs).philo_dead_mtx));
 	}
 	else
 	{

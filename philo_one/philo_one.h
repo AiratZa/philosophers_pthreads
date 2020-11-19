@@ -33,16 +33,16 @@
 typedef struct s_philo
 {
 	int			id;
-	int			fork_count;
-	int			*lft_fork;
-	int			*rght_fork;
-	int			first;
-	int			last;
+	// int			fork_count;
+	// int			*lft_fork;
+	// int			*rght_fork;
+	// int			first;
+	// int			last;
 	int			eating_status;
 	long long int			lst_meal;
 	long long int			max_hunger;
-	int			lft_id;
-	int			rght_id;
+	// int			lft_id;
+	// int			rght_id;
 	int		eatiing_count;
 	pthread_mutex_t	eat_mtx;
 	pthread_mutex_t	philo_mtx;
@@ -55,6 +55,7 @@ typedef struct s_mtxs
 	pthread_mutex_t      *forks_mtxs;
 	pthread_mutex_t      write_log_mtx;
 	pthread_mutex_t      philo_dead_mtx;
+	pthread_mutex_t      timestamp_mtx;
 }             t_mtxs;
 
 struct s_thrd_info;
@@ -64,7 +65,6 @@ typedef struct s_vars
 	struct s_thrd_info   *infos;
 	t_philo              *philos;
 	t_mtxs               mtxs;
-	pthread_t			starve_monitor;
 	pthread_t			eating_count_monitoring;
 	int	              nbr_of_philos;
 	int	              time_to_die;
@@ -72,7 +72,9 @@ typedef struct s_vars
 	int	              time_to_sleep;
 	int	              with_external_param;
 	int	              philos_must_eat_times_nbr;
-	// int					block_logs;
+	long long int		start_time;
+	int					is_someone_dead;
+
 }				t_vars;
 
 typedef struct       s_thrd_info
@@ -86,7 +88,7 @@ typedef struct       s_thrd_info
 ** Core funcs
 */
 
-int			init_args(t_vars *vars, char **argv);
+int			init_args_n_do_cycles(t_vars *vars, char **argv);
 
 int			convert_to_int_n_check_min_value(char **argv, \
 								int arg_nbr, t_vars *vars);
@@ -94,13 +96,18 @@ int			convert_to_int_n_check_min_value(char **argv, \
 void		*life_cycle(void *info_void);
 
 
+int	activate_eating_count_monitoring(t_vars *vars);
+
 /*
 ** Philo utils
 */
 
+// long long int	ft_get_timestamp_ms(pthread_mutex_t *timestamp_mtx);
+
+
 long long int	ft_get_timestamp_ms(void);
 
-void		sleep_milisecs(int count);
+void		sleep_exact_ms(int ms_count);
 
 void		ft_put_error(char *str);
 

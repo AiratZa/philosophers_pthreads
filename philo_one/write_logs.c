@@ -40,22 +40,24 @@ void    write_log(t_vars *vars, int type, int id)
     char *action;
     long long int timestamp;
 
-    timestamp = ft_get_timestamp_ms();
-
-    // if (!vars->block_logs)
-    // {
-    // sleep_milisecs(1);
-    color = get_color(type);
-    action = get_action(type);
-    pthread_mutex_lock(&((vars->mtxs).write_log_mtx));
-    ft_putstr_fd(color, 1);
-    ft_putnbr_fd(timestamp, 1);
-    ft_putchar_fd(' ', 1);
-    ft_putnbr_fd(id, 1);
-    ft_putchar_fd(' ', 1);
-    ft_putendl_fd(action, 1);
-    ft_putstr_fd(CLR_RESET, 1);
-    if (type >= 0)
+    timestamp = ft_get_timestamp_ms() - vars->start_time;
+    if (vars->is_someone_dead == 0)
+    {
+        color = get_color(type);
+        action = get_action(type);
+        pthread_mutex_lock(&((vars->mtxs).write_log_mtx));
+        if (vars->is_someone_dead)
+        {
+            pthread_mutex_unlock(&((vars->mtxs).write_log_mtx));
+            return ;
+        }
+        ft_putstr_fd(color, 1);
+        ft_putnbr_fd(timestamp, 1);
+        ft_putchar_fd(' ', 1);
+        ft_putnbr_fd(id, 1);
+        ft_putchar_fd(' ', 1);
+        ft_putendl_fd(action, 1);
+        ft_putstr_fd(CLR_RESET, 1);
         pthread_mutex_unlock(&((vars->mtxs).write_log_mtx));
-    // }
+    }
 }

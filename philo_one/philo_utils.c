@@ -1,6 +1,6 @@
 #include "philo_one.h"
 
-long long int	ft_get_timestamp_ms(void)
+long long int	ft_get_timestamp_ms()
 {
 	long long int	ret;
 	struct timeval now;
@@ -13,9 +13,20 @@ long long int	ft_get_timestamp_ms(void)
 ** usleep makes sleep for microsecs(milllisecs / 1000)
 */
 
-void	sleep_milisecs(int count)
+void		sleep_exact_ms(int ms_count)
 {
-	usleep(1000 * count);
+	long long int				start;
+	long long int				current;
+	long long int				remains;
+
+	remains = 0;
+	start = ft_get_timestamp_ms();
+	while (remains < ms_count)
+	{
+		current = ft_get_timestamp_ms();
+		remains = current - start;
+		usleep(10);
+	}
 }
 
 void	ft_put_error(char *str)
@@ -43,11 +54,6 @@ void	free_vars(t_vars *vars)
 		free(vars->philos);
 	if (vars->infos)
 	{
-		while (i < vars->nbr_of_philos && (vars->philos)[i].rght_fork)
-		{
-			free((vars->philos)[i].rght_fork);
-			i++;
-		}
 		free(vars->infos);
 	}
 	return ;
