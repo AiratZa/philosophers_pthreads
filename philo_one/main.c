@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:32 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/20 05:37:05 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/20 05:56:54 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int argc, char **argv)
 	{
 		if (init_args_n_do_cycles(&vars, argv))
 		{
+			ft_put_error("Happens something bad...");
 			free_vars(&vars);
 			return (-1);
 		}

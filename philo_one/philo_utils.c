@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:36 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/20 04:47:09 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/20 05:58:29 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,6 @@ void	ft_put_error(char *str)
 	ft_putstr_fd(RED, 2);
 	ft_putstr_fd(str, 2);
 	ft_putendl_fd(CLR_RESET, 2);
-}
-
-void	init_vars(t_vars *vars)
-{
-	(vars->mtxs).forks_mtxs = NULL;
-	vars->philos = NULL;
 }
 
 void	free_vars(t_vars *vars)

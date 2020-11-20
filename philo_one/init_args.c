@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 01:53:11 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/20 05:40:38 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/20 05:58:55 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,16 @@ int init_mtxs(t_vars *vars)
 	return (0);
 }
 
-
-int init_args_n_do_cycles(t_vars *vars, char **argv)
+void	init_null_vars(t_vars *vars)
 {
 	vars->philos = NULL;
+	(vars->mtxs).forks_mtxs = NULL;
+	vars->philos = NULL;
+}
+
+int init_args(t_vars *vars, char **argv)
+{
+	init_null_vars(vars);
 	if (parse_n_check_args(vars, argv))
 		return (-1);
 	if (init_mtxs(vars))
@@ -61,12 +67,21 @@ int init_args_n_do_cycles(t_vars *vars, char **argv)
 		return (-1);
 	if (vars->philos_must_eat_times_nbr)
 	{
-		activate_eating_count_monitoring(vars);
+		if (activate_eating_count_monitoring(vars))
+			return (-1);
 	}
 	vars->is_someone_dead = 0;
+	vars->start_time = ft_get_timestamp_ms();
+	return (0);
+}
+
+int init_args_n_do_cycles(t_vars *vars, char **argv)
+{
 	int i;
+
 	i = 0;
-    vars->start_time = ft_get_timestamp_ms();
+	if (init_args(vars, argv))
+		return (-1);
 	while (i < vars->nbr_of_philos)
 	{
 		if (pthread_create(&(((vars->philos)[i]).thread), NULL, \
@@ -77,10 +92,9 @@ int init_args_n_do_cycles(t_vars *vars, char **argv)
 	i = 0;
 	while (i < vars->nbr_of_philos)
 	{
-		pthread_join(((vars->philos)[i]).thread, NULL);
+		if (pthread_join(((vars->philos)[i]).thread, NULL))
+			return (-1);
 		i++;
 	}
-	if (!(vars->is_someone_dead))
-		vars->is_someone_dead = 0;
 	return (0);
 }
