@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/20 00:46:36 by gdrake            #+#    #+#             */
+/*   Updated: 2020/11/20 04:47:09 by gdrake           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_one.h"
 
 long long int	ft_get_timestamp_ms()
@@ -13,7 +25,7 @@ long long int	ft_get_timestamp_ms()
 ** usleep makes sleep for microsecs(milllisecs / 1000)
 */
 
-void		sleep_exact_ms(int ms_count)
+void		sleep_exact_ms(t_vars *vars, int ms_count)
 {
 	long long int				start;
 	long long int				current;
@@ -23,6 +35,8 @@ void		sleep_exact_ms(int ms_count)
 	start = ft_get_timestamp_ms();
 	while (remains < ms_count)
 	{
+		if (vars->is_someone_dead)
+			break ;
 		current = ft_get_timestamp_ms();
 		remains = current - start;
 		usleep(10);
@@ -40,8 +54,6 @@ void	init_vars(t_vars *vars)
 {
 	(vars->mtxs).forks_mtxs = NULL;
 	vars->philos = NULL;
-	vars->infos = NULL;
-
 }
 
 void	free_vars(t_vars *vars)
@@ -52,9 +64,5 @@ void	free_vars(t_vars *vars)
 		free((vars->mtxs).forks_mtxs);
 	if (vars->philos)
 		free(vars->philos);
-	if (vars->infos)
-	{
-		free(vars->infos);
-	}
 	return ;
 }

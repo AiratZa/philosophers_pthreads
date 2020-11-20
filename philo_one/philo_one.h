@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_one.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/20 00:46:47 by gdrake            #+#    #+#             */
+/*   Updated: 2020/11/20 05:14:51 by gdrake           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_ONE_H
 # define PHILO_ONE_H
 # define TAKE_FORK_LOG "has taken a fork"
@@ -5,6 +17,7 @@
 # define THINK_LOG "is thinking"
 # define SLEEP_LOG "is sleeping"
 # define DIE_LOG "died"
+
 # include <stdlib.h>
 # include <unistd.h>
 # include <pthread.h>
@@ -33,21 +46,13 @@
 typedef struct s_philo
 {
 	int			id;
-	// int			fork_count;
-	// int			*lft_fork;
-	// int			*rght_fork;
-	// int			first;
-	// int			last;
-	int			eating_status;
 	long long int			lst_meal;
 	long long int			max_hunger;
-	// int			lft_id;
-	// int			rght_id;
 	int		eatiing_count;
 	pthread_mutex_t	eat_mtx;
-	pthread_mutex_t	philo_mtx;
 	pthread_t	thread;
 	pthread_t	hungry_monitor;
+	struct s_vars *vars;
 }				t_philo;
 
 typedef struct s_mtxs
@@ -55,25 +60,22 @@ typedef struct s_mtxs
 	pthread_mutex_t      *forks_mtxs;
 	pthread_mutex_t      write_log_mtx;
 	pthread_mutex_t      philo_dead_mtx;
-	pthread_mutex_t      timestamp_mtx;
+	pthread_mutex_t      protect_when_eat_mtx;
 }             t_mtxs;
 
-struct s_thrd_info;
 
 typedef struct s_vars
 {
-	struct s_thrd_info   *infos;
 	t_philo              *philos;
 	t_mtxs               mtxs;
-	pthread_t			eating_count_monitoring;
 	int	              nbr_of_philos;
 	int	              time_to_die;
 	int	              time_to_eat;
 	int	              time_to_sleep;
-	int	              with_external_param;
 	int	              philos_must_eat_times_nbr;
 	long long int		start_time;
 	int					is_someone_dead;
+	pthread_t			eating_count_monitoring;
 
 }				t_vars;
 
@@ -96,34 +98,33 @@ int			convert_to_int_n_check_min_value(char **argv, \
 void		*life_cycle(void *info_void);
 
 
-int	activate_eating_count_monitoring(t_vars *vars);
+// int	activate_eating_count_monitoring(void *philo_struct);
 
 /*
 ** Philo utils
 */
 
-// long long int	ft_get_timestamp_ms(pthread_mutex_t *timestamp_mtx);
-
 
 long long int	ft_get_timestamp_ms(void);
 
-void		sleep_exact_ms(int ms_count);
+void		sleep_exact_ms(t_vars *vars, int ms_count);
 
 void		ft_put_error(char *str);
 
-void		write_log(t_vars *vars, int type, int id);
+void    write_log(t_vars *vars, const char *log_type, int id);
 
 /*
 ** Libft utils
 */
 
-int			ft_atoi(const char *nptr);
+int			ft_atoi_re(const char *nptr);
 
 void		ft_putchar_fd(char c, int fd);
 
-void		ft_putstr_fd(char *s, int fd);
+void	ft_putstr_fd(const char *s, int fd);
 
-void		ft_putendl_fd(char *s, int fd);
+void	ft_putendl_fd(const char *s, int fd);
+
 
 void		ft_putnbr_fd(long long int n, int fd);
 
@@ -136,7 +137,14 @@ void	ft_put_error(char *str);
 
 void	free_vars(t_vars *vars);
 
-int	activate_monitoring(t_vars *vars, int id, void *info_void);
+void	take_forks(t_vars *vars, int id);
+
+
+void	drop_forks(t_vars *vars, int id);
+
+int	activate_health_monitoring(t_vars *vars, int id, void *philo_struct);
+
+int	activate_eating_count_monitoring(t_vars *vars);
 
 
 #endif

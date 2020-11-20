@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/20 00:46:44 by gdrake            #+#    #+#             */
+/*   Updated: 2020/11/20 01:53:03 by gdrake           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_one.h"
 
 size_t	ft_strlen(const char *str)
@@ -10,12 +22,12 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(const char *s, int fd)
 {
 	write(fd, s, ft_strlen(s));
 }
 
-void	ft_putendl_fd(char *s, int fd)
+void	ft_putendl_fd(const char *s, int fd)
 {
 	ft_putstr_fd(s, fd);
 	write(fd, "\n", 1);
@@ -27,7 +39,7 @@ int	ft_isspace(int c)
 			c == '\r' || c == '\f' || c == '\v');
 }
 
-int			ft_atoi(const char *nptr)
+int			ft_atoi_re(const char *nptr)
 {
 	long	nb;
 	long	tmp;
@@ -53,6 +65,8 @@ int			ft_atoi(const char *nptr)
 		if (nb < tmp)
 			return ((minus) ? 0 : -1);
 	}
+	if (nptr[i] != '\0')
+		return (-1);
 	return ((minus) ? (int)(-nb) : (int)(nb));
 }
 

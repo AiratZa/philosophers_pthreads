@@ -1,8 +1,20 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/11/20 01:52:51 by gdrake            #+#    #+#              #
+#    Updated: 2020/11/20 01:52:52 by gdrake           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = philo_one
 
 CFLAGS = #-Wall -Wextra #-Werror
 
-SRCS = main.c libft_utils.c init_args.c philo_utils.c parse_n_check_args.c life_cycle.c write_logs.c monitoring.c
+SRCS = main.c libft_utils.c init_args.c philo_utils.c parse_n_check_args.c life_cycle.c write_logs.c monitoring.c forks_take_put.c
 
 OBJS = $(SRCS:.c=.o)
 

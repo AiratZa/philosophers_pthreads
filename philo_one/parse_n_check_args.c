@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_n_check_args.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/20 00:46:29 by gdrake            #+#    #+#             */
+/*   Updated: 2020/11/20 02:24:02 by gdrake           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_one.h"
 
 void	set_config_value_by_id(int id, int value, t_vars *vars)
@@ -14,24 +26,16 @@ void	set_config_value_by_id(int id, int value, t_vars *vars)
 		vars->philos_must_eat_times_nbr = value;
 }
 
-void	show_min_value_error(int arg_nbr)
-{
-	if (arg_nbr == 1)
-        ft_put_error("Number_of_philosophers must be at least two");
-	else
-		ft_put_error("Time value/repeat nbr cannot be lower than zero");
-}
-
 int	convert_to_int_n_check_min_value(char **argv, int arg_nbr, t_vars *vars)
 {
 	int	value;
 	int	min_val;
 
-	min_val = (arg_nbr == 1) ? 2 : 0;
-	value = ft_atoi(argv[arg_nbr]);
-	if (value < min_val)
+	value = ft_atoi_re(argv[arg_nbr]);
+	if (value < 0)
 	{
-		show_min_value_error(arg_nbr);
+		ft_put_error("Provided args cannot be equal/lower than zero.\
+OR found not numbers");
 		return (-1);
 	}
 	set_config_value_by_id(arg_nbr, value, vars);
