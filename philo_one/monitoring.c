@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:34 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/20 05:15:48 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/20 05:40:19 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	*hungry_monitoring(void *philo_struct)
 		{
 	        pthread_mutex_unlock(&((vars->mtxs).protect_when_eat_mtx));
             pthread_mutex_lock(&((vars->mtxs).philo_dead_mtx));
-            if (vars->is_someone_dead || (vars->philos_must_eat_times_nbr && !(philo->eatiing_count)))
+            if (vars->is_someone_dead)
             {
 		        pthread_mutex_unlock(&((vars->mtxs).philo_dead_mtx));
                 return (NULL);
