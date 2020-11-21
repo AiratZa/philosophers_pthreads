@@ -6,18 +6,19 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 01:53:11 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/20 05:58:55 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/21 16:28:09 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-int	create_philos(t_vars *vars)
+int		create_philos(t_vars *vars)
 {
 	int i;
 
 	i = 0;
-	if (!(vars->philos = (t_philo *)malloc(sizeof(t_philo) * vars->nbr_of_philos)))
+	if (!(vars->philos = (t_philo *)malloc(sizeof(t_philo) * \
+													vars->nbr_of_philos)))
 		return (-1);
 	while (i < vars->nbr_of_philos)
 	{
@@ -27,13 +28,14 @@ int	create_philos(t_vars *vars)
 		pthread_mutex_lock(&((vars->philos)[i].eat_mtx));
 		(vars->philos)[i].vars = vars;
 		i++;
-	}	return (0);
+	}
+	return (0);
 }
 
-int init_mtxs(t_vars *vars)
+int		init_mtxs(t_vars *vars)
 {
 	int i;
-	
+
 	i = 0;
 	if (!((vars->mtxs).forks_mtxs = (pthread_mutex_t *)malloc(\
 				sizeof(pthread_mutex_t) * vars->nbr_of_philos)))
@@ -53,10 +55,9 @@ void	init_null_vars(t_vars *vars)
 {
 	vars->philos = NULL;
 	(vars->mtxs).forks_mtxs = NULL;
-	vars->philos = NULL;
 }
 
-int init_args(t_vars *vars, char **argv)
+int		init_args(t_vars *vars, char **argv)
 {
 	init_null_vars(vars);
 	if (parse_n_check_args(vars, argv))
@@ -75,7 +76,7 @@ int init_args(t_vars *vars, char **argv)
 	return (0);
 }
 
-int init_args_n_do_cycles(t_vars *vars, char **argv)
+int		init_args_n_do_cycles(t_vars *vars, char **argv)
 {
 	int i;
 

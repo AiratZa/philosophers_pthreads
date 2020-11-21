@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:29 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/20 02:24:02 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/21 17:36:13 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,9 @@ void	set_config_value_by_id(int id, int value, t_vars *vars)
 		vars->philos_must_eat_times_nbr = value;
 }
 
-int	convert_to_int_n_check_min_value(char **argv, int arg_nbr, t_vars *vars)
+int		convert_to_int_n_check_min_val(char **argv, int arg_nbr, t_vars *vars)
 {
 	int	value;
-	int	min_val;
 
 	value = ft_atoi_re(argv[arg_nbr]);
 	if (value < 0)
@@ -42,20 +41,20 @@ OR found not numbers");
 	return (0);
 }
 
-int	parse_n_check_args(t_vars *vars, char **argv)
+int		parse_n_check_args(t_vars *vars, char **argv)
 {
 	vars->philos_must_eat_times_nbr = 0;
-	if (convert_to_int_n_check_min_value(argv, 1, vars))
+	if (convert_to_int_n_check_min_val(argv, 1, vars))
 		return (-1);
-	if (convert_to_int_n_check_min_value(argv, 2, vars))
+	if (convert_to_int_n_check_min_val(argv, 2, vars))
 		return (-1);
-	if (convert_to_int_n_check_min_value(argv, 3, vars))
+	if (convert_to_int_n_check_min_val(argv, 3, vars))
 		return (-1);
-	if (convert_to_int_n_check_min_value(argv, 4, vars))
+	if (convert_to_int_n_check_min_val(argv, 4, vars))
 		return (-1);
 	if (argv[5])
 	{
-		if (convert_to_int_n_check_min_value(argv, 5, vars))
+		if (convert_to_int_n_check_min_val(argv, 5, vars))
 			return (-1);
 	}
 	return (0);

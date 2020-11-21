@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:47 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/20 05:47:36 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/21 17:27:34 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # define MAGENTA	"\x1b[35m"
 # define CYAN		"\x1b[36m"
 # define CLR_RESET	"\x1b[0m"
-# include <stdio.h>//
 
 typedef struct			s_philo
 {
@@ -61,7 +60,6 @@ typedef struct			s_vars
 	long long int		start_time;
 	int					is_someone_dead;
 	pthread_t			eating_count_monitoring;
-
 }						t_vars;
 
 /*
@@ -81,7 +79,7 @@ void					*life_cycle(void *info_void);
 
 long long int			ft_get_timestamp_ms(void);
 
-void					sleep_exact_ms(t_vars *vars, int ms_count);
+int						sleep_exact_ms(t_vars *vars, int ms_count);
 
 void					ft_put_error(char *str);
 

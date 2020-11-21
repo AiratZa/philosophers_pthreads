@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:32 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/20 05:56:54 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/21 17:27:51 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 int	main(int argc, char **argv)
 {
-	t_vars vars;
-	int i;
-	char *test;
+	t_vars	vars;
 
 	if ((argc == 5) || (argc == 6))
 	{
@@ -33,7 +31,5 @@ int	main(int argc, char **argv)
 		return (-1);
 	}
 	free_vars(&vars);
-	// while (1)
-	// 	;
 	return (0);
 }
