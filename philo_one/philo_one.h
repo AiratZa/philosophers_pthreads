@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:47 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 17:27:34 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/21 18:04:44 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define MAGENTA	"\x1b[35m"
 # define CYAN		"\x1b[36m"
 # define CLR_RESET	"\x1b[0m"
+# define FT_MUTEX_INIT	1
 
 typedef struct			s_philo
 {

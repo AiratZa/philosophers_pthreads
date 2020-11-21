@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:32 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 17:27:51 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/21 18:07:54 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	main(int argc, char **argv)
 {
 	t_vars	vars;
 
+	vars.philos = NULL;
+	(vars.mtxs).forks_mtxs = NULL;
 	if ((argc == 5) || (argc == 6))
 	{
 		if (init_args_n_do_cycles(&vars, argv))

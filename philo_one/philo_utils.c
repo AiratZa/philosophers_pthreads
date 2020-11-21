@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:36 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 17:16:45 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/21 18:07:31 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,8 @@ void			ft_put_error(char *str)
 
 void			free_vars(t_vars *vars)
 {
-	int i;
-
-	i = 0;
 	if ((vars->mtxs).forks_mtxs)
-	{
-		while (i < (vars->nbr_of_philos))
-		{
-			pthread_mutex_destroy(&((vars->mtxs).forks_mtxs[i]));
-			pthread_mutex_unlock(&((vars->philos)[i].eat_mtx));
-			pthread_mutex_destroy(&((vars->philos)[i].eat_mtx));
-			i++;
-		}
 		free((vars->mtxs).forks_mtxs);
-	}
 	if (vars->philos)
 		free(vars->philos);
-	pthread_mutex_destroy(&((vars->mtxs).philo_dead_mtx));
-	pthread_mutex_destroy(&((vars->mtxs).write_log_mtx));
-	pthread_mutex_destroy(&((vars->mtxs).protect_when_eat_mtx));
 }
