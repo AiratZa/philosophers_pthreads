@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_one.h                                        :+:      :+:    :+:   */
+/*   philo_two.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:47 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 18:18:30 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/21 21:40:19 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_ONE_H
-# define PHILO_ONE_H
+#ifndef PHILO_TWO_H
+# define PHILO_TWO_H
 # include <stdlib.h>
 # include <unistd.h>
 # include <pthread.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <semaphore.h>
 # include <sys/time.h>
 # define TAKE_FORK_LOG "has taken a fork"
 # define EAT_LOG "is eating"
@@ -28,30 +32,31 @@
 # define MAGENTA	"\x1b[35m"
 # define CYAN		"\x1b[36m"
 # define CLR_RESET	"\x1b[0m"
+# include <stdio.h> //
 
 typedef struct			s_philo
 {
 	int					id;
 	long long int		lst_meal;
 	long long int		max_hunger;
-	pthread_mutex_t		eat_mtx;
+	sem_t				*eat_sem;
 	pthread_t			thread;
 	pthread_t			hungry_monitor;
 	struct s_vars		*vars;
 }						t_philo;
 
-typedef struct			s_mtxs
+typedef struct			s_sems
 {
-	pthread_mutex_t		*forks_mtxs;
-	pthread_mutex_t		write_log_mtx;
-	pthread_mutex_t		philo_dead_mtx;
-	pthread_mutex_t		protect_when_eat_mtx;
-}						t_mtxs;
+	sem_t *max_visitors_sem;
+	sem_t *write_log_sem;
+	sem_t *philo_dead_sem;
+	sem_t *protect_when_eat_sem;
+}						t_sems;
 
 typedef struct			s_vars
 {
 	t_philo				*philos;
-	t_mtxs				mtxs;
+	t_sems				sems;
 	int					nbr_of_philos;
 	int					time_to_die;
 	int					time_to_eat;
@@ -91,7 +96,6 @@ void					free_vars(t_vars *vars);
 
 void					take_forks(t_vars *vars, int id);
 
-void					drop_forks(t_vars *vars, int id);
 
 int						activate_health_monitoring(t_vars *vars, int id, \
 						void *philo_struct);

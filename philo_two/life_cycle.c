@@ -6,22 +6,22 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:41 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 19:40:17 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/21 21:35:43 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo_two.h"
 
 void	ft_eat(t_vars *vars, int id)
 {
-	pthread_mutex_lock(&((vars->mtxs).protect_when_eat_mtx));
+	sem_wait((vars->sems).protect_when_eat_sem);
 	(vars->philos)[id - 1].lst_meal = ft_get_timestamp_ms();
 	((vars->philos)[id - 1]).max_hunger = (vars->philos)[id - 1].lst_meal + \
 											vars->time_to_die;
-	pthread_mutex_unlock(&((vars->mtxs).protect_when_eat_mtx));
 	write_log(vars, EAT_LOG, id);
+	sem_post((vars->sems).protect_when_eat_sem);
 	sleep_exact_ms(vars, vars->time_to_eat);
-	pthread_mutex_unlock(&((vars->philos)[id - 1].eat_mtx));
+	sem_post((vars->philos)[id - 1].eat_sem);
 }
 
 void	ft_sleep(t_vars *vars, int id)
@@ -29,7 +29,7 @@ void	ft_sleep(t_vars *vars, int id)
 	t_philo philo;
 
 	philo = (vars->philos)[id - 1];
-	drop_forks(vars, id);
+	sem_post((vars->sems).max_visitors_sem);
 	write_log(vars, SLEEP_LOG, id);
 	if (vars->is_someone_dead)
 		return ;
@@ -45,13 +45,13 @@ void	life_cycle_inside(t_vars *vars, int id)
 		take_forks(vars, id);
 		if (vars->is_someone_dead)
 		{
-			drop_forks(vars, id);
+			sem_post((vars->sems).max_visitors_sem);
 			break ;
 		}
 		ft_eat(vars, id);
 		if (vars->is_someone_dead)
 		{
-			drop_forks(vars, id);
+			sem_post((vars->sems).max_visitors_sem);
 			break ;
 		}
 		ft_sleep(vars, id);
