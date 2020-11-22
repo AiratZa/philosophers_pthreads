@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 sem_t *ft_sem_open_protected(const char *sem_name, unsigned int sem_value)
 {
@@ -54,6 +54,9 @@ int		create_philos(t_vars *vars)
 
 int		ft_init_semaphores(t_vars *vars)
 {
+	if (!((vars->sems).is_smbdy_dead_sem = \
+			ft_sem_open_protected("FT_IS_SMBDY_DEAD", vars->nbr_of_philos)))
+		return (-1);
 	if (!((vars->sems).forks_sem = ft_sem_open_protected("FT_FORKS", vars->nbr_of_philos)))
 		return (-1);
 	if (!((vars->sems).waiter = ft_sem_open_protected("FT_WAITER", 1)))
@@ -85,27 +88,26 @@ int		init_args(t_vars *vars, char **argv)
 	return (0);
 }
 
-
-
 int		init_args_n_do_cycles(t_vars *vars, char **argv)
 {
 	int i;
+	pid_t pid;
 
 	i = 0;
 	if (init_args(vars, argv))
 		return (-1);
 	while (i < vars->nbr_of_philos)
 	{
-		if (pthread_create(&(((vars->philos)[i]).thread), NULL, \
-						life_cycle, (void *)(&((vars->philos)[i]))))
+		pid = fork();
+		if (pid < 0)
 			return (-1);
-		i++;
-	}
-	i = 0;
-	while (i < vars->nbr_of_philos)
-	{
-		if (pthread_join(((vars->philos)[i]).thread, NULL))
-			return (-1);
+		else if (pid == 0)
+		{
+			life_cycle((void *)(&((vars->philos)[i])));
+			exit(0);
+		}
+		else
+			(vars->philos)[i].fork_proccess = pid;
 		i++;
 	}
 	// destroy_mutexes(vars);

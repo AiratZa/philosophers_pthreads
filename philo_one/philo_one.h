@@ -16,11 +16,11 @@
 # include <unistd.h>
 # include <pthread.h>
 # include <sys/time.h>
-# define TAKE_FORK_LOG "has taken a fork"
-# define EAT_LOG "is eating"
-# define THINK_LOG "is thinking"
-# define SLEEP_LOG "is sleeping"
-# define DIE_LOG "died"
+# define TAKE_FORK_LOG 1
+# define EAT_LOG 2
+# define SLEEP_LOG 3
+# define THINK_LOG 4
+# define DIE_LOG -1
 # define RED		"\x1b[31m"
 # define GREEN		"\x1b[32m"
 # define YELLOW		"\x1b[33m"
@@ -83,7 +83,7 @@ int						sleep_exact_ms(t_vars *vars, int ms_count);
 
 void					ft_put_error(char *str);
 
-void					write_log(t_vars *vars, const char *log_type, int id);
+void					write_log(t_vars *vars, const int log_type, int id);
 
 int						parse_n_check_args(t_vars *vars, char **argv);
 

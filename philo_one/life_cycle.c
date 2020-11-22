@@ -26,9 +26,6 @@ void	ft_eat(t_vars *vars, int id)
 
 void	ft_sleep(t_vars *vars, int id)
 {
-	t_philo philo;
-
-	philo = (vars->philos)[id - 1];
 	drop_forks(vars, id);
 	write_log(vars, SLEEP_LOG, id);
 	if (vars->is_someone_dead)
@@ -70,9 +67,8 @@ void	*life_cycle(void *philo_struct)
 	philo = (t_philo *)philo_struct;
 	id = philo->id;
 	vars = philo->vars;
-	((vars->philos)[id - 1]).lst_meal = ft_get_timestamp_ms();
-	((vars->philos)[id - 1]).max_hunger = (vars->philos)[id - 1].lst_meal + \
-												vars->time_to_die;
+	philo->lst_meal = ft_get_timestamp_ms();
+	philo->max_hunger = philo->lst_meal + vars->time_to_die;
 	activate_health_monitoring(vars, id, philo_struct);
 	life_cycle_inside(vars, id);
 	return (NULL);

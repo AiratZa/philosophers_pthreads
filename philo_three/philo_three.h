@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_TWO_H
-# define PHILO_TWO_H
+#ifndef PHILO_THREE_H
+# define PHILO_THREE_H
 # include <stdlib.h>
 # include <unistd.h>
 # include <pthread.h>
@@ -20,6 +20,7 @@
 # include <sys/stat.h>
 # include <semaphore.h>
 # include <sys/time.h>
+# include <sys/types.h>
 # define TAKE_FORK_LOG 1
 # define EAT_LOG 2
 # define SLEEP_LOG 3
@@ -40,13 +41,14 @@ typedef struct			s_philo
 	long long int		lst_meal;
 	long long int		max_hunger;
 	sem_t				*eat_sem;
-	pthread_t			thread;
+	pid_t				fork_proccess;
 	pthread_t			hungry_monitor;
 	struct s_vars		*vars;
 }						t_philo;
 
 typedef struct			s_sems
 {
+	sem_t *is_smbdy_dead_sem;
 	sem_t *forks_sem;
 	sem_t *waiter;
 	sem_t *write_log_sem;
