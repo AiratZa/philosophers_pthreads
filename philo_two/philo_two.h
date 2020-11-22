@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:47 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/22 17:06:21 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 18:12:33 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,16 @@
 # define MAGENTA	"\x1b[35m"
 # define CYAN		"\x1b[36m"
 # define CLR_RESET	"\x1b[0m"
-# include <stdio.h> //
-# include <stdio.h> //
-
-// ./philo_two 150 210 200 100
-
 
 typedef struct			s_philo
 {
 	int					id;
 	long long int		lst_meal;
 	long long int		max_hunger;
-	sem_t				*eat_sem;
+	sem_t				*ate_enough;
 	pthread_t			thread;
 	pthread_t			hungry_monitor;
+	int					eat_count;
 	struct s_vars		*vars;
 }						t_philo;
 
@@ -101,11 +97,17 @@ void					free_vars(t_vars *vars);
 
 void					take_forks(t_vars *vars, int id);
 
-
 int						activate_health_monitoring(t_vars *vars, int id, \
 						void *philo_struct);
 
 int						activate_eating_count_monitoring(t_vars *vars);
+
+sem_t					*ft_sem_open_protected(const char *sem_name, \
+												unsigned int sem_value);
+
+int						ft_init_semaphores(t_vars *vars);
+
+void					init_vals_for_sems(t_vars *vars);
 
 /*
 ** Libft utils
@@ -122,5 +124,7 @@ void					ft_putendl_fd(const char *s, int fd);
 void					ft_putnbr_fd(long long int n, int fd);
 
 void					drop_forks(t_vars *vars);
+
+char					*ft_itoa_re(int n);
 
 #endif

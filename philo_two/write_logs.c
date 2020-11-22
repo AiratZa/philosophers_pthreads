@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:39 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 21:38:32 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 18:14:26 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,24 @@ static char	*ft_get_action_log(const int log_type)
 	return ("died");
 }
 
+void		finish_blocked_waits(t_vars *vars)
+{
+	int i;
+
+	i = 0;
+	while (i < vars->nbr_of_philos)
+	{
+		sem_post((vars->sems).waiter);
+		i++;
+	}
+}
+
+void		mark_die(t_vars *vars)
+{
+	vars->is_someone_dead++;
+	finish_blocked_waits(vars);
+}
+
 void		write_log(t_vars *vars, const int log_type, int id)
 {
 	char			*color;
@@ -61,7 +79,7 @@ void		write_log(t_vars *vars, const int log_type, int id)
 		ft_putendl_fd(ft_get_action_log(log_type), 1);
 		ft_putstr_fd(CLR_RESET, 1);
 		if (log_type == DIE_LOG)
-			vars->is_someone_dead++;
+			mark_die(vars);
 		sem_post((vars->sems).write_log_sem);
 	}
 }

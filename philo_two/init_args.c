@@ -6,34 +6,30 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 01:53:11 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 20:04:37 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 18:02:32 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_two.h"
 
-sem_t *ft_sem_open_protected(const char *sem_name, unsigned int sem_value)
+void	philo_init_values(t_vars *vars)
 {
-	sem_t *sem;
+	int i;
 
-	sem = sem_open (sem_name, O_CREAT | O_EXCL, 0644, sem_value);
-	if (sem == SEM_FAILED)
+	i = 0;
+	while (i < vars->nbr_of_philos)
 	{
-		if (errno == EEXIST)
-		{
-			if (sem_unlink(sem_name))
-				return (NULL);
-			return (ft_sem_open_protected(sem_name, sem_value));
-		}
-		return (NULL);
+		(vars->philos)[i].ate_enough = NULL;
+		i++;
 	}
-	return (sem);
 }
 
 int		create_philos(t_vars *vars)
 {
-	int i;
+	int		i;
+	char	*name;
 
+	name = NULL;
 	i = 0;
 	if (!(vars->philos = (t_philo *)malloc(sizeof(t_philo) * \
 													vars->nbr_of_philos)))
@@ -42,9 +38,12 @@ int		create_philos(t_vars *vars)
 	{
 		(vars->philos)[i].id = i + 1;
 		(vars->philos)[i].lst_meal = 0;
-		if (!((vars->philos)[i].eat_sem = ft_sem_open_protected("FT_EAT_STATUS", 1)))
+		if (!(name = ft_itoa_re(i)))
 			return (-1);
-		if (sem_wait((vars->philos)[i].eat_sem))
+		if (!((vars->philos)[i].ate_enough = ft_sem_open_protected(name, 1)))
+			return (-1);
+		free(name);
+		if (sem_wait((vars->philos)[i].ate_enough))
 			return (-1);
 		(vars->philos)[i].vars = vars;
 		i++;
@@ -52,23 +51,9 @@ int		create_philos(t_vars *vars)
 	return (0);
 }
 
-int		ft_init_semaphores(t_vars *vars)
-{
-	if (!((vars->sems).forks_sem = ft_sem_open_protected("FT_FORKS", vars->nbr_of_philos)))
-		return (-1);
-	if (!((vars->sems).waiter = ft_sem_open_protected("FT_WAITER", 1)))
-		return (-1);
-	if (!((vars->sems).philo_dead_sem = ft_sem_open_protected("FT_PHILO_DEAD", 1)))
-		return (-1);
-	if (!((vars->sems).write_log_sem = ft_sem_open_protected("FT_WRITE_LOG", 1)))
-		return (-1);
-	if (!((vars->sems).protect_when_eat_sem = ft_sem_open_protected("FT_PROTECT_WHEN_EAT", 1)))
-		return (-1);
-	return (0);
-}
-
 int		init_args(t_vars *vars, char **argv)
 {
+	init_vals_for_sems(vars);
 	if (parse_n_check_args(vars, argv))
 		return (-1);
 	if (ft_init_semaphores(vars))
@@ -84,8 +69,6 @@ int		init_args(t_vars *vars, char **argv)
 	vars->start_time = ft_get_timestamp_ms();
 	return (0);
 }
-
-
 
 int		init_args_n_do_cycles(t_vars *vars, char **argv)
 {
@@ -108,6 +91,5 @@ int		init_args_n_do_cycles(t_vars *vars, char **argv)
 			return (-1);
 		i++;
 	}
-	// destroy_mutexes(vars);
 	return (0);
 }

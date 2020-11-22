@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:34 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/22 14:09:44 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 18:11:33 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,12 @@ int		activate_health_monitoring(t_vars *vars, int id, void *philo_struct)
 void	*eating_count_monitoring(void *vars_void)
 {
 	t_vars	*vars;
-	int		count;
 	int		i;
 
-	count = 0;
+	i = 0;
 	vars = (t_vars *)vars_void;
-	while (count < vars->philos_must_eat_times_nbr)
-	{
-		i = 0;
-		while (i < vars->nbr_of_philos)
-			sem_wait((vars->philos)[i++].eat_sem);
-		count++;
-	}
+	while (i < vars->nbr_of_philos)
+		sem_wait((vars->philos)[i++].ate_enough);
 	if (vars->is_someone_dead)
 		return (NULL);
 	sem_wait((vars->sems).philo_dead_sem);
@@ -93,8 +87,10 @@ void	*eating_count_monitoring(void *vars_void)
 
 int		activate_eating_count_monitoring(t_vars *vars)
 {
-	pthread_create(&(vars->eating_count_monitoring), NULL, \
-			eating_count_monitoring, (void *)(vars));
-	pthread_detach(vars->eating_count_monitoring);
+	if (pthread_create(&(vars->eating_count_monitoring), NULL, \
+			eating_count_monitoring, (void *)(vars)))
+		return (-1);
+	if (pthread_detach(vars->eating_count_monitoring))
+		return (-1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:47 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/22 17:09:48 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 17:53:35 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ typedef struct			s_philo
 	sem_t				*ate_enough;
 	pid_t				fork_proccess;
 	pthread_t			hungry_monitor;
-	pthread_t			check_enough_ate;
 	struct s_vars		*vars;
 	int					eat_count;
 }						t_philo;

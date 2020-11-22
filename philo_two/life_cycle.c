@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:41 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 21:35:43 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 17:38:35 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,13 @@ void	ft_eat(t_vars *vars, int id)
 	write_log(vars, EAT_LOG, id);
 	sem_post((vars->sems).protect_when_eat_sem);
 	sleep_exact_ms(vars, vars->time_to_eat);
-	sem_post((vars->philos)[id - 1].eat_sem);
+	if (vars->philos_must_eat_times_nbr)
+	{
+		((vars->philos)[id - 1]).eat_count++;
+		if (((vars->philos)[id - 1]).eat_count == \
+										vars->philos_must_eat_times_nbr)
+			sem_post(((vars->philos)[id - 1]).ate_enough);
+	}
 }
 
 void	ft_sleep(t_vars *vars, int id)
@@ -67,6 +73,7 @@ void	*life_cycle(void *philo_struct)
 	philo = (t_philo *)philo_struct;
 	id = philo->id;
 	vars = philo->vars;
+	philo->eat_count = 0;
 	philo->lst_meal = ft_get_timestamp_ms();
 	philo->max_hunger = philo->lst_meal + vars->time_to_die;
 	activate_health_monitoring(vars, id, philo_struct);
