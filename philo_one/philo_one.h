@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:47 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 18:18:30 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 18:36:59 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ typedef struct			s_philo
 	int					id;
 	long long int		lst_meal;
 	long long int		max_hunger;
-	pthread_mutex_t		eat_mtx;
+	pthread_mutex_t		ate_enough_mtx;
 	pthread_t			thread;
 	pthread_t			hungry_monitor;
 	struct s_vars		*vars;
+	int					eat_count;
 }						t_philo;
 
 typedef struct			s_mtxs

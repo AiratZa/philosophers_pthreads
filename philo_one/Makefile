@@ -6,7 +6,7 @@
 #    By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/20 01:52:51 by gdrake            #+#    #+#              #
-#    Updated: 2020/11/21 17:36:03 by gdrake           ###   ########.fr        #
+#    Updated: 2020/11/22 18:48:48 by gdrake           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME = philo_one
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = main.c libft_utils.c init_args.c philo_utils.c parse_n_check_args.c life_cycle.c write_logs.c monitoring.c forks_take_put.c ft_atoi_re.c
+SRCS = main.c libft_utils.c init_args.c philo_utils.c parse_n_check_args.c \
+		life_cycle.c write_logs.c monitoring.c forks_take_put.c ft_atoi_re.c
 
 OBJS = $(SRCS:.c=.o)
 

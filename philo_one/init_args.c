@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 01:53:11 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 18:12:10 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 18:28:55 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int		create_philos(t_vars *vars)
 	{
 		(vars->philos)[i].id = i + 1;
 		(vars->philos)[i].lst_meal = 0;
-		if (pthread_mutex_init(&((vars->philos)[i].eat_mtx), NULL))
+		if (pthread_mutex_init(&((vars->philos)[i].ate_enough_mtx), NULL))
 			return (-1);
-		pthread_mutex_lock(&((vars->philos)[i].eat_mtx));
+		pthread_mutex_lock(&((vars->philos)[i].ate_enough_mtx));
 		(vars->philos)[i].vars = vars;
 		i++;
 	}
@@ -82,8 +82,8 @@ void	destroy_mutexes(t_vars *vars)
 	while (i < (vars->nbr_of_philos))
 	{
 		pthread_mutex_destroy(&((vars->mtxs).forks_mtxs[i]));
-		pthread_mutex_unlock(&((vars->philos)[i].eat_mtx));
-		pthread_mutex_destroy(&((vars->philos)[i].eat_mtx));
+		pthread_mutex_unlock(&((vars->philos)[i].ate_enough_mtx));
+		pthread_mutex_destroy(&((vars->philos)[i].ate_enough_mtx));
 		i++;
 	}
 	pthread_mutex_destroy(&((vars->mtxs).philo_dead_mtx));

@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 01:53:11 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/22 18:02:32 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 18:24:27 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		create_philos(t_vars *vars)
 	if (!(vars->philos = (t_philo *)malloc(sizeof(t_philo) * \
 													vars->nbr_of_philos)))
 		return (-1);
+	philo_init_values(vars);
 	while (i < vars->nbr_of_philos)
 	{
 		(vars->philos)[i].id = i + 1;

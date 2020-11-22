@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:41 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 19:40:17 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 18:35:02 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,13 @@ void	ft_eat(t_vars *vars, int id)
 	pthread_mutex_unlock(&((vars->mtxs).protect_when_eat_mtx));
 	write_log(vars, EAT_LOG, id);
 	sleep_exact_ms(vars, vars->time_to_eat);
-	pthread_mutex_unlock(&((vars->philos)[id - 1].eat_mtx));
+	if (vars->philos_must_eat_times_nbr)
+	{
+		((vars->philos)[id - 1]).eat_count++;
+		if (((vars->philos)[id - 1]).eat_count == \
+										vars->philos_must_eat_times_nbr)
+			pthread_mutex_unlock(&((vars->philos)[id - 1].ate_enough_mtx));
+	}
 }
 
 void	ft_sleep(t_vars *vars, int id)
