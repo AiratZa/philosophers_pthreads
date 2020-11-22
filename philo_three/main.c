@@ -6,22 +6,41 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:32 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 21:41:10 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 17:07:35 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
+
+int	return_value_handler(int ret)
+{
+	if (ret == -2)
+		ft_put_error("You've requested nbr of procs that PC couldnt create");
+	else if (ret == -3)
+		ft_put_error("Error occured when parse and check args values");
+	else if (ret == -4)
+		ft_put_error("Error occured when init main semaphores");
+	else if (ret == -5)
+		ft_put_error("Error occured when initialize philos and their sems");
+	else if (ret == -6)
+		ft_put_error("Error occured when activate eat count monitoring");
+	else if (ret == -7)
+		ft_put_error("Error occured when activate eat health monitoring");
+	else
+		ft_put_error("Happens something bad...");
+	return (-1);
+}
 
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
+	int		ret;
 
 	vars.philos = NULL;
 	if ((argc == 5) || (argc == 6))
 	{
-		if (init_args_n_do_cycles(&vars, argv))
+		if ((ret = init_args_n_do_cycles(&vars, argv)))
 		{
-			ft_put_error("Happens something bad...");
 			free_vars(&vars);
 			return (-1);
 		}

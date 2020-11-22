@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_two.h                                        :+:      :+:    :+:   */
+/*   philo_three.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:47 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 21:40:19 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 17:09:48 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <semaphore.h>
 # include <sys/time.h>
 # include <sys/types.h>
+# include <signal.h>
 # define TAKE_FORK_LOG 1
 # define EAT_LOG 2
 # define SLEEP_LOG 3
@@ -33,22 +34,22 @@
 # define MAGENTA	"\x1b[35m"
 # define CYAN		"\x1b[36m"
 # define CLR_RESET	"\x1b[0m"
-# include <stdio.h> //
 
 typedef struct			s_philo
 {
 	int					id;
 	long long int		lst_meal;
 	long long int		max_hunger;
-	sem_t				*eat_sem;
+	sem_t				*ate_enough;
 	pid_t				fork_proccess;
 	pthread_t			hungry_monitor;
+	pthread_t			check_enough_ate;
 	struct s_vars		*vars;
+	int					eat_count;
 }						t_philo;
 
 typedef struct			s_sems
 {
-	sem_t *is_smbdy_dead_sem;
 	sem_t *forks_sem;
 	sem_t *waiter;
 	sem_t *write_log_sem;
@@ -66,7 +67,6 @@ typedef struct			s_vars
 	int					time_to_sleep;
 	int					philos_must_eat_times_nbr;
 	long long int		start_time;
-	int					is_someone_dead;
 	pthread_t			eating_count_monitoring;
 }						t_vars;
 
@@ -87,7 +87,7 @@ void					*life_cycle(void *info_void);
 
 long long int			ft_get_timestamp_ms(void);
 
-int						sleep_exact_ms(t_vars *vars, int ms_count);
+int						sleep_exact_ms(int ms_count);
 
 void					ft_put_error(char *str);
 
@@ -99,11 +99,21 @@ void					free_vars(t_vars *vars);
 
 void					take_forks(t_vars *vars, int id);
 
-
 int						activate_health_monitoring(t_vars *vars, int id, \
 						void *philo_struct);
 
 int						activate_eating_count_monitoring(t_vars *vars);
+
+void					init_vals_for_sems(t_vars *vars);
+
+sem_t					*ft_sem_open_protected(const char *sem_name, \
+										unsigned int sem_value);
+
+int						ft_init_semaphores(t_vars *vars);
+
+int						ft_init_philos_processes(t_vars *vars);
+
+void					kill_philo_processes(t_vars *vars);
 
 /*
 ** Libft utils
@@ -120,5 +130,9 @@ void					ft_putendl_fd(const char *s, int fd);
 void					ft_putnbr_fd(long long int n, int fd);
 
 void					drop_forks(t_vars *vars);
+
+char					*ft_itoa_re(int n);
+
+int						return_value_handler(int ret);
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:29 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 18:37:55 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 11:12:35 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 void	set_config_value_by_id(int id, int value, t_vars *vars)
 {

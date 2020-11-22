@@ -6,11 +6,11 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 13:15:07 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 18:37:33 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 11:12:21 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 int	ft_isspace(int c)
 {

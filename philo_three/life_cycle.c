@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:41 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 21:35:43 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 17:02:38 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,40 +20,26 @@ void	ft_eat(t_vars *vars, int id)
 											vars->time_to_die;
 	write_log(vars, EAT_LOG, id);
 	sem_post((vars->sems).protect_when_eat_sem);
-	sleep_exact_ms(vars, vars->time_to_eat);
-	sem_post((vars->philos)[id - 1].eat_sem);
+	sleep_exact_ms(vars->time_to_eat);
+	((vars->philos)[id - 1]).eat_count++;
+	if (((vars->philos)[id - 1]).eat_count == vars->philos_must_eat_times_nbr)
+		sem_post(((vars->philos)[id - 1]).ate_enough);
 }
 
 void	ft_sleep(t_vars *vars, int id)
 {
 	drop_forks(vars);
 	write_log(vars, SLEEP_LOG, id);
-	if (vars->is_someone_dead)
-		return ;
-	sleep_exact_ms(vars, vars->time_to_sleep);
+	sleep_exact_ms(vars->time_to_sleep);
 }
 
 void	life_cycle_inside(t_vars *vars, int id)
 {
 	while (1)
 	{
-		if (vars->is_someone_dead)
-			break ;
 		take_forks(vars, id);
-		if (vars->is_someone_dead)
-		{
-			drop_forks(vars);
-			break ;
-		}
 		ft_eat(vars, id);
-		if (vars->is_someone_dead)
-		{
-			drop_forks(vars);
-			break ;
-		}
 		ft_sleep(vars, id);
-		if (vars->is_someone_dead)
-			break ;
 		write_log(vars, THINK_LOG, id);
 	}
 }
@@ -67,9 +53,11 @@ void	*life_cycle(void *philo_struct)
 	philo = (t_philo *)philo_struct;
 	id = philo->id;
 	vars = philo->vars;
-	philo->lst_meal = ft_get_timestamp_ms();
+	philo->eat_count = 0;
+	philo->lst_meal = vars->start_time;
 	philo->max_hunger = philo->lst_meal + vars->time_to_die;
-	activate_health_monitoring(vars, id, philo_struct);
+	if (activate_health_monitoring(vars, id, philo_struct))
+		return_value_handler(-7);
 	life_cycle_inside(vars, id);
 	return (NULL);
 }

@@ -1,29 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forks_take_put.c                                   :+:      :+:    :+:   */
+/*   ft_itoa_re.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/20 01:38:00 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/22 16:39:58 by gdrake           ###   ########.fr       */
+/*   Created: 2020/11/22 15:59:28 by gdrake            #+#    #+#             */
+/*   Updated: 2020/11/22 17:07:07 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_three.h"
 
-void	take_forks(t_vars *vars, int id)
+static size_t	ft_d_count(int n)
 {
-	sem_wait((vars->sems).waiter);
-	sem_wait((vars->sems).forks_sem);
-	write_log(vars, TAKE_FORK_LOG, id);
-	sem_wait((vars->sems).forks_sem);
-	write_log(vars, TAKE_FORK_LOG, id);
-	sem_post((vars->sems).waiter);
+	size_t		d_count;
+
+	d_count = 1;
+	if (n < 0)
+		n *= -1;
+	while (n >= 10)
+	{
+		d_count++;
+		n /= 10;
+	}
+	return (d_count);
 }
 
-void	drop_forks(t_vars *vars)
+char			*ft_itoa_re(int n)
 {
-	sem_post((vars->sems).forks_sem);
-	sem_post((vars->sems).forks_sem);
+	char	*nbr;
+	size_t	d_count;
+
+	d_count = ft_d_count(n);
+	nbr = (char *)malloc((d_count + 1) * sizeof(char));
+	if (nbr == NULL)
+		return (NULL);
+	nbr[d_count] = '\0';
+	while (d_count > 0)
+	{
+		nbr[(d_count--) - 1] = (n % 10) + '0';
+		n /= 10;
+	}
+	return (nbr);
 }

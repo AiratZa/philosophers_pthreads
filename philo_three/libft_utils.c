@@ -6,11 +6,11 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:44 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 18:37:44 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 11:12:25 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 size_t	ft_strlen(const char *str)
 {
