@@ -6,7 +6,7 @@
 /*   By: gdrake <gdrake@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 00:46:47 by gdrake            #+#    #+#             */
-/*   Updated: 2020/11/21 21:40:19 by gdrake           ###   ########.fr       */
+/*   Updated: 2020/11/22 17:06:21 by gdrake           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@
 # define CYAN		"\x1b[36m"
 # define CLR_RESET	"\x1b[0m"
 # include <stdio.h> //
+# include <stdio.h> //
+
+// ./philo_two 150 210 200 100
+
 
 typedef struct			s_philo
 {
